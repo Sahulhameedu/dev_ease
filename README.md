@@ -1,16 +1,29 @@
-# dev_ease
+# Dev Ease 🚀📱🔨
 
-A new Flutter project.
+**Dev Ease** is an Android utility app that simplifies enabling and managing debugging features on your Android device. Designed for developers, QA engineers, or power users, it allows you to quickly toggle debugging options and set debug behaviours (e.g. USB debugging, wireless debugging, etc.) from a friendly UI.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🧰 Features
 
-A few resources to get you started if this is your first Flutter project:
+- Toggle **USB Debugging** (from Developer Options)
+- Toggle **Wireless Debugging** (Android 11+)
+- Quickly enable/disable Developer Options entirely
+- View current status of each debugging option
+- Optionally apply settings persistently
+- Shows helpful documentation notes or links
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+---
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📦 Screenshots
+
+<img width="1080" height="2400" alt="Screenshot_1753635093" src="https://github.com/user-attachments/assets/fbdef3c9-37cb-4667-8474-52ec5b5c10cd" />
+
+---
+
+### Clone the repository
+
+```bash
+git clone https://github.com/NaveedAlamDev/dev_ease.git
+cd dev_ease
+
