@@ -6,11 +6,10 @@
 
 ## ✨ Features
 
-- Toggle **USB Debugging** (from Developer Options)
+- Toggle **USB Debugging**
 - Toggle **Wireless Debugging** (Android 11+)
 - Quickly enable/disable Developer Options entirely
 - View current status of each debugging option
-- Optionally apply settings persistently
 - Simple and minimal user interface
 
 ---
