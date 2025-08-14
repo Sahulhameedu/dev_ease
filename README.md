@@ -25,6 +25,6 @@
 2. Install it on your Android device.
 3. Connect your device to your system, make sure **ADB** is installed, and run:
    ```bash
-   adb shell pm revoke com.navdev.dev_ease android.permission.WRITE_SECURE_SETTINGS
+   adb shell pm grant com.navdev.dev_ease android.permission.WRITE_SECURE_SETTINGS
 4. This will allow the app to make changes to Developer Settings.
 
