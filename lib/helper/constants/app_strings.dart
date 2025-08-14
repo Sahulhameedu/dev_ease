@@ -8,4 +8,7 @@ class AppStrings {
   static const String usbDebuggingDesc = "Debug via USB connection";
   static const String wirelessDebugging = "Wireless Debugging";
   static const String wirelessDebuggingDesc = "Debug over Wi-Fi network";
+  static const String openScanner = "Open Scanner";
+  static const String failedToOpenSettings =
+      "Failed to open Wireless Debugging Screen";
 }

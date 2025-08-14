@@ -2,6 +2,7 @@ import 'package:dev_ease/helper/constants/app_strings.dart';
 import 'package:dev_ease/presentation/screens/homeScreen/components/home_header.dart';
 import 'package:dev_ease/presentation/screens/homeScreen/components/setting_item.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 import '../../../helper/services/settings_service.dart';
 import '../../../models/settings_model.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    ToastContext().init(context);
     _initializeAimation();
     _getSettings();
   }
@@ -106,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             title: AppStrings.wirelessDebugging,
                             subtitle: AppStrings.wirelessDebuggingDesc,
                             value: _settings.wifiAdbEnabled,
+                            showSettingsIcon: true,
                             onChanged: (value) {
                               _updateSettings(
                                 _settings.copyWith(
