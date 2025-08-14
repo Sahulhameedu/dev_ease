@@ -17,14 +17,15 @@
 
 ## 📦 Screenshots
 
-<img width="1080" height="2400" alt="Screenshot_1753635093" src="https://github.com/user-attachments/assets/fbdef3c9-37cb-4667-8474-52ec5b5c10cd" />
+<img width="1080" height="2400" alt="Screenshot_1753635093" src="https://github.com/user-attachments/assets/53695825-f04d-4779-9b6e-efecb0732dca"/>
 
 ---
 
 ## 📥 Installation
-1. [**Download the latest APK**](https://github.com/USERNAME/REPO/releases/latest/download/app-release.apk)
+1. [**Download the APK**](https://github.com/NaveedAlamDev/dev_ease/releases/latest/download/app-release.apk)
 2. Install it on your Android device.
 3. Connect your device to your system, make sure **ADB** is installed, and run:
    ```bash
    adb shell pm revoke com.navdev.dev_ease android.permission.WRITE_SECURE_SETTINGS
+4. This will allow the app to make changes to Developer Settings.
 
