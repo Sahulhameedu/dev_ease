@@ -80,6 +80,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   devModeEnabled: !_settings.devModeEnabled,
                                 ),
                               );
+                              // await GlanceWidgetController.updateWidget(
+                              //   devOptStatus: !_settings.devModeEnabled,
+                              //   usbDebuggingStatus: _settings.adbEnabled,
+                              // );
                             },
                             delay: 100,
                           ),
@@ -115,6 +119,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   wifiAdbEnabled: !_settings.wifiAdbEnabled,
                                 ),
                               );
+                              // await GlanceWidgetController.updateWidget(
+                              //   devOptStatus: !_settings.devModeEnabled,
+                              //   usbDebuggingStatus: _settings.adbEnabled,
+                              // );
                             },
                             delay: 300,
                           ),

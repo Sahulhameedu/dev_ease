@@ -3,6 +3,7 @@ import 'package:dev_ease/presentation/screens/homeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // setupGetIt();
   runApp(const MyApp());
 }
 

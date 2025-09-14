@@ -3,6 +3,8 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    // For Compose Support
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -17,6 +19,14 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "2.1.0"
     }
 
     defaultConfig {
@@ -41,4 +51,30 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // implementation("androidx.glance:glance-appwidget:1.1.1")
+     // For Glance support
+     // implementation("androidx.glance:glance-appwidget-preview:1.1.0")
+     
+     // For AppWidgets support
+    // implementation(platform("androidx.compose:compose-bom:2024.04.01"))
+    // implementation("androidx.glance:glance-appwidget:1.1.0")
+    // implementation("androidx.glance:glance-material3:1.1.0")
+    // implementation("androidx.glance:glance:1.1.0")
+    // implementation("androidx.compose.material3:material3:1.2.1")
+
+
+    implementation(platform("androidx.compose:compose-bom:2024.04.01"))
+    
+    // Remove version numbers when using BOM
+    implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
+    implementation("androidx.glance:glance-material3:1.0.0-alpha05")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    
+    // Keep specific versions for non-Compose libraries
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    // implementation("androidx.work:work-runtime-ktx:2.8.1")
 }
