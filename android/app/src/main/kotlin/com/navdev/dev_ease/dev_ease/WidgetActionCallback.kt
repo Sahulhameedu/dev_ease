@@ -45,7 +45,14 @@ class WidgetActionCallback : ActionCallback {
                     toggleUsbDebugging(context)
                     // data = android.net.Uri.parse("homeWidget://toggleUsbDebugging")
                 }
+                ControlWidget.ACTION_REFRESH_DATA -> {
+                    Log.d("WidgetActionCallback", "Toggling USB debugging")
+                         // Always update the widget after an action
+                    ControlWidget().refreshAllWidgets(context)
+                    // data = android.net.Uri.parse("homeWidget://toggleUsbDebugging")
+                }
             }
+            ControlWidget().refreshAllWidgets(context)
             ControlWidget().updateAll(context)
             // context.startActivity(this)
         // }

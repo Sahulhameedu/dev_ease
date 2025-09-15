@@ -46,6 +46,7 @@ class ControlWidget : GlanceAppWidget() {
     companion object {
         const val TOGGLE_DEVELOPER_OPTIONS = "toggle_dev_options"
         const val ACTION_TOGGLE_USB_DEBUGGING = "toggle_usb_debugging"
+        const val ACTION_REFRESH_DATA = "refresh_data"
         val IS_ENABLED_KEY = booleanPreferencesKey("dev_options_enabled")
         val USB_DEBUGGING_KEY = booleanPreferencesKey("usb_debugging_enabled")
     }
@@ -63,7 +64,7 @@ class ControlWidget : GlanceAppWidget() {
         }
     }
 
-    private fun isDeveloperOptionsEnabled(context: Context): Boolean {
+    public fun isDeveloperOptionsEnabled(context: Context): Boolean {
         return try {
             Settings.Global.getInt(
                 context.contentResolver,
@@ -76,7 +77,7 @@ class ControlWidget : GlanceAppWidget() {
     }
 
     // Function to check if USB Debugging is enabled
-    private fun isUsbDebuggingEnabled(context: Context): Boolean {
+    public fun isUsbDebuggingEnabled(context: Context): Boolean {
         return try {
             Settings.Global.getInt(
                 context.contentResolver,
@@ -86,6 +87,10 @@ class ControlWidget : GlanceAppWidget() {
         } catch (e: Exception) {
             false
         }
+    }
+
+    suspend fun refreshAllWidgets(context: Context) {
+        updateAll(context)
     }
 }
 
@@ -155,6 +160,35 @@ private fun WidgetContent(context: Context) {
                 activeColor = Color(0xFFF5576C)
             )
             Spacer(GlanceModifier.height(12.dp))
+
+            Row(
+                modifier = GlanceModifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = GlanceModifier
+                        .background(ColorProvider(Color(0xFF9C27B0)))
+                        .cornerRadius(8.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .clickable(
+                            actionRunCallback<WidgetActionCallback>(
+                                parameters = actionParametersOf(
+                                    ActionParameters.Key<String>("action") to ControlWidget.ACTION_REFRESH_DATA
+                                )
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "🔄 Refresh",
+                        style = TextStyle(
+                            color = ColorProvider(Color.White),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
+            }
         }
         // Status Display
 //        StatusRow(
