@@ -49,6 +49,28 @@ class ControlWidget : GlanceAppWidget() {
         const val ACTION_REFRESH_DATA = "refresh_data"
         val IS_ENABLED_KEY = booleanPreferencesKey("dev_options_enabled")
         val USB_DEBUGGING_KEY = booleanPreferencesKey("usb_debugging_enabled")
+        fun isDeveloperOptionsEnabled(context: Context): Boolean {
+            return try {
+                Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
+                    0
+                ) == 1
+            } catch (e: Exception) {
+                false
+            }
+        }
+        fun isUsbDebuggingEnabled(context: Context): Boolean {
+            return try {
+                Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.ADB_ENABLED,
+                    0
+                ) == 1
+            } catch (e: Exception) {
+                false
+            }
+        }
     }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -61,31 +83,6 @@ class ControlWidget : GlanceAppWidget() {
         }
         provideContent {
             WidgetContent(context)
-        }
-    }
-
-    public fun isDeveloperOptionsEnabled(context: Context): Boolean {
-        return try {
-            Settings.Global.getInt(
-                context.contentResolver,
-                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
-                0
-            ) == 1
-        } catch (e: Exception) {
-            false
-        }
-    }
-
-    // Function to check if USB Debugging is enabled
-    public fun isUsbDebuggingEnabled(context: Context): Boolean {
-        return try {
-            Settings.Global.getInt(
-                context.contentResolver,
-                Settings.Global.ADB_ENABLED,
-                0
-            ) == 1
-        } catch (e: Exception) {
-            false
         }
     }
 
@@ -190,74 +187,6 @@ private fun WidgetContent(context: Context) {
                 }
             }
         }
-        // Status Display
-//        StatusRow(
-//            label = "Status:",
-//            value = if (isEnabled) "ON" else "OFF",
-//            valueColor = if (isEnabled) Color(0xFF4CAF50) else Color(0xFFFF5722)
-//        )
-//
-//        StatusRow(
-//            label = "USB Debugging:",
-//            value = if (isUsbDebugging) "ON" else "OFF",
-//            valueColor = Color(0xFF2196F3)
-//        )
-//
-//        Spacer(modifier = GlanceModifier.height(12.dp))
-//
-//        // Control Buttons
-//        Row(
-//            modifier = GlanceModifier.fillMaxWidth(),
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            ControlButton(
-//                text = "💡",
-//                action = ControlWidget.TOGGLE_DEVELOPER_OPTIONS,
-//                backgroundColor = if (isEnabled) Color(0xFF4CAF50) else Color(0xFF424242)
-//            )
-//
-//            Spacer(modifier = GlanceModifier.width(8.dp))
-//
-//            ControlButton(
-//                text = "⏱️",
-//                action = ControlWidget.ACTION_TOGGLE_USB_DEBUGGING,
-//                backgroundColor = Color(0xFF2196F3),
-//                duration = "300"
-//            )
-//        }
-//
-//        Spacer(modifier = GlanceModifier.height(8.dp))
-        
-        // Row(
-        //     modifier = GlanceModifier.fillMaxWidth(),
-        //     horizontalAlignment = Alignment.CenterHorizontally
-        // ) {
-        //     ControlButton(
-        //         text = "🔄",
-        //         action = ControlWidget.ACTION_REFRESH_DATA,
-        //         backgroundColor = Color(0xFF9C27B0)
-        //     )
-            
-        //     Spacer(modifier = GlanceModifier.width(8.dp))
-            
-        //     ControlButton(
-        //         text = "📱",
-        //         action = ControlWidget.ACTION_OPEN_APP,
-        //         backgroundColor = Color(0xFF607D8B)
-        //     )
-        // }
-        
-        // Spacer(modifier = GlanceModifier.height(12.dp))
-        
-        // // Last Update
-        // Text(
-        //     text = "Updated: $lastUpdate",
-        //     style = TextStyle(
-        //         color = ColorProvider(Color(0xFF9E9E9E)),
-        //         fontSize = 10.sp
-        //     ),
-        //     modifier = GlanceModifier.fillMaxWidth(),
-        // )
     }
 }
 
@@ -306,11 +235,6 @@ private fun SettingRow(
                 )
             )
         }
-
-//        ToggleAction(
-//            checked = value,
-//            onCheckedChange = action
-//        )
 
         Box(
             modifier = GlanceModifier

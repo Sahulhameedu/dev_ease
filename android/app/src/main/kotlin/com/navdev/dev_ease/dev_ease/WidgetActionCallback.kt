@@ -8,6 +8,7 @@ import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.updateAll
 import android.provider.Settings
 import android.util.Log
+import androidx.glance.appwidget.state.updateAppWidgetState
 import es.antonborri.home_widget.HomeWidgetPlugin
 
 class WidgetActionCallback : ActionCallback {
@@ -17,48 +18,35 @@ class WidgetActionCallback : ActionCallback {
         parameters: ActionParameters
     ) {
         val action = parameters[ActionParameters.Key<String>("action")]
-        
-        // Create intent to launch the main app with data
-        // val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-        // intent?.apply {
-            when (action) {
-                // ControlWidget.ACTION_TOGGLE_LIGHT -> {
-                //     data = android.net.Uri.parse("homeWidget://toggleLight")
-                // }
-                // ControlWidget.ACTION_START_TIMER -> {
-                //     val duration = parameters[ActionParameters.Key<String>("duration")] ?: "300"
-                //     data = android.net.Uri.parse("homeWidget://startTimer?duration=$duration")
-                // }
-                // ControlWidget.ACTION_REFRESH_DATA -> {
-                //     data = android.net.Uri.parse("homeWidget://refreshData")
-                // }
-                // ControlWidget.ACTION_OPEN_APP -> {
-                //     data = android.net.Uri.parse("homeWidget://openApp")
-                // }
-                ControlWidget.TOGGLE_DEVELOPER_OPTIONS -> {
-                    Log.d("WidgetActionCallback", "Toggling developer options")
-                    // data = android.net.Uri.parse("homeWidget://toggleDevOptions")
-                    toggleDeveloperOptions(context)
-                }
-                ControlWidget.ACTION_TOGGLE_USB_DEBUGGING -> {
-                    Log.d("WidgetActionCallback", "Toggling USB debugging")
-                    toggleUsbDebugging(context)
-                    // data = android.net.Uri.parse("homeWidget://toggleUsbDebugging")
-                }
-                ControlWidget.ACTION_REFRESH_DATA -> {
-                    Log.d("WidgetActionCallback", "Toggling USB debugging")
-                         // Always update the widget after an action
-                    ControlWidget().refreshAllWidgets(context)
-                    // data = android.net.Uri.parse("homeWidget://toggleUsbDebugging")
-                }
+        when (action) {
+            ControlWidget.TOGGLE_DEVELOPER_OPTIONS -> {
+                Log.d("WidgetActionCallback", "Toggling developer options")
+                // data = android.net.Uri.parse("homeWidget://toggleDevOptions")
+                toggleDeveloperOptions(context,glanceId)
             }
-            ControlWidget().refreshAllWidgets(context)
-            ControlWidget().updateAll(context)
-            // context.startActivity(this)
-        // }
+            ControlWidget.ACTION_TOGGLE_USB_DEBUGGING -> {
+                Log.d("WidgetActionCallback", "Toggling USB debugging")
+                toggleUsbDebugging(context,glanceId)
+            }
+            ControlWidget.ACTION_REFRESH_DATA -> {
+                Log.d("WidgetActionCallback", "Toggling USB debugging")
+                refreshWidget(context, glanceId)
+            }
+        }
+        ControlWidget().update(context, glanceId)
     }
 
-    private suspend fun toggleDeveloperOptions(context: Context) {
+    private suspend fun refreshWidget(context: Context, glanceId: GlanceId) {
+        val isEnabled = isDeveloperOptionsEnabled(context)
+        val isUsbDebugging = isUsbDebuggingEnabled(context)
+
+        updateAppWidgetState(context, glanceId) { prefs ->
+            prefs[ControlWidget.IS_ENABLED_KEY] = isEnabled
+            prefs[ControlWidget.USB_DEBUGGING_KEY] = isUsbDebugging
+        }
+    }
+
+    private suspend fun toggleDeveloperOptions(context: Context,glanceId: GlanceId) {
         try {
             val currentStatus = Settings.Global.getInt(
                 context.contentResolver,
@@ -76,6 +64,9 @@ class WidgetActionCallback : ActionCallback {
             // Update Flutter widget data
             // HomeWidgetPlugin.saveWidgetData(context, "dev_options", !currentStatus)
             // HomeWidgetPlugin.updateWidget(context)
+            updateAppWidgetState(context, glanceId) { prefs ->
+                prefs[ControlWidget.IS_ENABLED_KEY] = !currentStatus
+            }
             
         } catch (e: SecurityException) {
             // Handle permission error - you might want to show a notification
@@ -86,7 +77,7 @@ class WidgetActionCallback : ActionCallback {
         }
     }
 
-    private suspend fun toggleUsbDebugging(context: Context) {
+    private suspend fun toggleUsbDebugging(context: Context,glanceId: GlanceId) {
         try {
             val currentStatus = Settings.Global.getInt(
                 context.contentResolver,
@@ -104,6 +95,11 @@ class WidgetActionCallback : ActionCallback {
             // Update Flutter widget data
             // HomeWidgetPlugin.saveWidgetData(context, "toggle_usb_debugging", !currentStatus)
             // HomeWidgetPlugin.updateWidget(context)
+
+            // Update Glance widget state
+            updateAppWidgetState(context, glanceId) { prefs ->
+                prefs[ControlWidget.USB_DEBUGGING_KEY] = !currentStatus
+            }
             
         } catch (e: SecurityException) {
             // Handle permission error
@@ -149,6 +145,30 @@ class WidgetActionCallback : ActionCallback {
             openDeveloperOptionsSettings(context)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun isUsbDebuggingEnabled(context: Context): Boolean {
+            return try {
+                Settings.Global.getInt(
+                    context.contentResolver,
+                    Settings.Global.ADB_ENABLED,
+                    0
+                ) == 1
+            } catch (e: Exception) {
+                false
+            }
+    }
+
+    private fun isDeveloperOptionsEnabled(context: Context): Boolean {
+        return try {
+            Settings.Global.getInt(
+                context.contentResolver,
+                Settings.Global.DEVELOPMENT_SETTINGS_ENABLED,
+                0
+            ) == 1
+        } catch (e: Exception) {
+            false
         }
     }
 
