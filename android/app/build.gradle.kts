@@ -54,27 +54,22 @@ flutter {
 }
 
 dependencies {
-    // implementation("androidx.glance:glance-appwidget:1.1.1")
-     // For Glance support
-     // implementation("androidx.glance:glance-appwidget-preview:1.1.0")
-     
-     // For AppWidgets support
-    // implementation(platform("androidx.compose:compose-bom:2024.04.01"))
-    // implementation("androidx.glance:glance-appwidget:1.1.0")
-    // implementation("androidx.glance:glance-material3:1.1.0")
-    // implementation("androidx.glance:glance:1.1.0")
-    // implementation("androidx.compose.material3:material3:1.2.1")
-
-
     implementation(platform("androidx.compose:compose-bom:2024.04.01"))
-    
-    // Remove version numbers when using BOM
+
+    // Glance (for home widgets)
     implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
     implementation("androidx.glance:glance-material3:1.0.0-alpha05")
+
+    // Compose UI + Material3
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.material3:material3")
-    
+
+    // Material Icons (default set)
+    implementation("androidx.compose.material:material-icons-core")
+
+    // Extended Material Icons (outlined, rounded, two-tone, sharp)
+    implementation("androidx.compose.material:material-icons-extended")
+
     // Keep specific versions for non-Compose libraries
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    // implementation("androidx.work:work-runtime-ktx:2.8.1")
 }
