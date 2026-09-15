@@ -9,6 +9,6 @@
     android:widgetCategory="home_screen"
     android:initialLayout="@layout/glance_default_loading"
     android:description="@string/widget_description"
-    android:previewLayout="@layout/glance_default_loading"
+    android:previewLayout="@layout/glance_default_demo"
     android:widgetFeatures="reconfigurable|configuration_optional"
 />
