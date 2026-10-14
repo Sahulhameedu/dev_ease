@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.navdev.dev_ease"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "28.2.13676358"
 
     compileOptions {
